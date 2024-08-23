@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import './ProductList.css'
 import { addItem } from './CartSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import CartItem from './CartItem';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
@@ -286,7 +287,7 @@ const handlePlantsClick = (e) => {
                     <img className="product-image" src={plant.image} alt={plant.name} />
                     <div className="product-title">{plant.name}</div>
                     <div>{plant.description}</div>
-                    <div className='product-price'>$ {plant.price}</div>
+                    <div className='product-price'> {plant.cost}</div>
                     {/*Similarly like the above plant.name show other details like description and cost*/}
                     <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
                 </div>
