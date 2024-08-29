@@ -248,13 +248,42 @@ const handlePlantsClick = (e) => {
     e.preventDefault();
     setShowCart(false);
   };
-    const [addedToCart, setAddedToCart] = useState({});
-    const handleAddToCart = (product) => {
-        dispatch(addItem(product));
+    //ADD TO CART
+    const dispatch = useDispatch();
+    const [addedToCart, setAddedToCart] = useState([]);
+    const handleAddToCart = (plant) => {
+        dispatch(addItem(plant));
         setAddedToCart((prevState) => ({
-           ...prevState,
-           [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
-         }));
+            ...prevState,
+            [plant.name]:true,
+        }));
+        console.log(plant); // Set the product name as key and value as true to indicate it's added to cart
+    };
+    //Total Cart
+    // const [totalCartQuantity, setTotalCartQuantity] = useState(0);
+    // const cartQuantity = useSelector(store => store.CartItem);
+    // useEffect(() => {
+    //     let total = 0;
+    //     for (let i=0; i < cartQuantity.length; i++){
+    //         total += cartQuantity[i].cost;
+    //     }
+    //     setTotalCartQuantity(total);
+    // },
+    // [cartQuantity]);
+    const [totalCartQuantity, setTotalCartQuantity] = useState(0);
+    useEffect(() => {
+        total();
+    }, [CartItem]);
+    const total = () => {
+        let totalval = 0;
+        for (let i =0; i < CartItem.length; i++){
+            totalval += CartItem[i].cost;
+        }
+        setTotalCartQuantity(totalval);
+    };
+    const handleShowCart = () => {
+        //console.log("handleShowCart called");
+        setShowCart(!showCart);
     };
     return (
         <div>
@@ -263,7 +292,7 @@ const handlePlantsClick = (e) => {
                <div className="luxury">
                <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="" />
                <a href="/" style={{textDecoration:'none'}}>
-                        <div>
+                    <div>
                     <h3 style={{color:'white'}}>Paradise Nursery</h3>
                     <i style={{color:'white'}}>Where Green Meets Serenity</i>
                     </div>
@@ -298,7 +327,7 @@ const handlePlantsClick = (e) => {
 
         </div>
  ) :  (
-    <CartItem onContinueShopping={handleContinueShopping}/>
+    <CartItem onContinueShopping={handleShowCart}/>
 )}
     </div>
     );
